@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CityJS London 2026 · Day 3 Schedule</title>
+<meta name="description" content="Unofficial Day 3 schedule for CityJS London 2026 — all four tracks in one grid.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f4f1ea;
+  --ink: #1a1915;
+  --ink-soft: #4a4740;
+  --ink-faint: #8a867c;
+  --paper: #fbf9f4;
+  --line: #d9d3c4;
+  --line-strong: #1a1915;
+  --accent: #c8441f;
+  --t1: #3c3489;   /* Great Hall  — purple */
+  --t2: #0f6e56;   /* Small Hall  — teal   */
+  --t3: #993c1d;   /* Session 1   — coral  */
+  --t4: #993556;   /* Session 2   — pink   */
+  --t1-bg: #eeedfe;
+  --t2-bg: #e1f5ee;
+  --t3-bg: #faece7;
+  --t4-bg: #fbeaf0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* ───────── header ───────── */
+.masthead {
+  border-bottom: 2px solid var(--line-strong);
+  padding: 2.5rem 1.5rem 2rem;
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+.masthead-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+}
+.edition {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.edition span::before {
+  content: "◆ ";
+  color: var(--accent);
+  margin-right: 0.25rem;
+}
+h1.title {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-variation-settings: "opsz" 144;
+}
+h1.title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+.tagline {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  margin-top: 0.75rem;
+  max-width: 40ch;
+}
+.date-stamp {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+}
+.date-stamp .day {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.date-stamp .month {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+  color: var(--ink-soft);
+}
+
+/* ───────── legend ───────── */
+.legend {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--paper);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.swatch {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+}
+.t1-c { color: var(--t1); }
+.t2-c { color: var(--t2); }
+.t3-c { color: var(--t3); }
+.t4-c { color: var(--t4); }
+.t1-c .swatch { background: var(--t1-bg); }
+.t2-c .swatch { background: var(--t2-bg); }
+.t3-c .swatch { background: var(--t3-bg); }
+.t4-c .swatch { background: var(--t4-bg); }
+
+/* ───────── grid ───────── */
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.grid-wrap {
+  overflow-x: auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.schedule {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+  font-size: 0.88rem;
+}
+
+.schedule thead th {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+  vertical-align: bottom;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.schedule thead th .track-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.schedule thead th .track-sub {
+  opacity: 0.6;
+  font-weight: 400;
+}
+.schedule thead th.time-col { width: 82px; }
+
+.schedule thead th.t1-h .track-name { color: #bfb8ff; }
+.schedule thead th.t2-h .track-name { color: #8fddc1; }
+.schedule thead th.t3-h .track-name { color: #f0997b; }
+.schedule thead th.t4-h .track-name { color: #ed93b1; }
+
+.schedule tbody tr {
+  border-top: 1px solid var(--line);
+}
+.schedule tbody tr:first-child { border-top: none; }
+
+.time-cell {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  padding: 1rem 0.75rem;
+  color: var(--ink-soft);
+  vertical-align: top;
+  white-space: nowrap;
+  border-right: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 95%, var(--ink) 5%);
+}
+
+.slot {
+  padding: 0;
+  vertical-align: top;
+  border-right: 1px solid var(--line);
+}
+.slot:last-child { border-right: none; }
+.slot.empty {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 10px,
+      rgba(0,0,0,0.02) 10px 11px
+    );
+}
+
+.talk {
+  display: block;
+  padding: 0.85rem 0.9rem;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  transition: background 0.15s ease, transform 0.1s ease;
+  position: relative;
+  height: 100%;
+  min-height: 64px;
+}
+.talk::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: currentColor;
+  opacity: 0.8;
+}
+.talk:hover {
+  background: rgba(0,0,0,0.03);
+}
+.talk:hover::before {
+  width: 5px;
+}
+.talk:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.t1 .talk { color: var(--t1); }
+.t2 .talk { color: var(--t2); }
+.t3 .talk { color: var(--t3); }
+.t4 .talk { color: var(--t4); }
+
+.talk-title {
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+}
+.talk-speaker {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.86rem;
+  color: currentColor;
+}
+.talk-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 0.4rem;
+}
+
+/* shared rows: breakfast, break, lunch */
+.shared {
+  background:
+    linear-gradient(135deg,
+      var(--paper) 0%,
+      color-mix(in srgb, var(--bg) 60%, var(--paper)) 100%);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  padding: 0.85rem 0.9rem;
+  text-align: center;
+  color: var(--ink-soft);
+  border-left: 3px double var(--line-strong);
+  border-right: 3px double var(--line-strong);
+}
+.shared::before {
+  content: "— ";
+  opacity: 0.5;
+}
+.shared::after {
+  content: " —";
+  opacity: 0.5;
+}
+
+/* ───────── modal ───────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 25, 21, 0.7);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+  animation: fade 0.2s ease;
+}
+.modal-backdrop.open { display: flex; }
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal {
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  animation: rise 0.25s ease;
+}
+@keyframes rise {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal-header {
+  padding: 2rem 2rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.modal-track {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.modal-track .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  display: inline-block;
+}
+.modal h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.85rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+.tags {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--ink-soft);
+}
+.modal-body {
+  padding: 1.5rem 2rem;
+}
+.modal-body .desc {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.speakers-section {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.speakers-section h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+.speaker {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px dashed var(--line);
+}
+.speaker:last-child { margin-bottom: 0; padding-bottom: 0; border: none; }
+.speaker-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.speaker-company {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--accent);
+  font-size: 0.95rem;
+  margin-top: 0.1rem;
+}
+.speaker-bio {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.socials {
+  margin-top: 0.6rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+}
+.socials a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: color 0.15s;
+}
+.socials a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.close-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* ───────── footer ───────── */
+footer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+footer a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ───────── mobile ───────── */
+@media (max-width: 720px) {
+  .masthead { padding: 1.75rem 1rem 1.5rem; }
+  .masthead-inner { grid-template-columns: 1fr; gap: 1rem; }
+  .date-stamp { text-align: left; }
+  .date-stamp .day { font-size: 2.25rem; }
+  main { padding: 1.25rem 0.5rem 3rem; }
+  .schedule { font-size: 0.8rem; }
+  .time-cell { padding: 0.75rem 0.5rem; }
+  .talk { padding: 0.7rem; }
+  .modal-header, .modal-body { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .modal h2 { font-size: 1.4rem; }
+  .legend { gap: 1rem; font-size: 0.65rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <div class="edition">
+        <span>CityJS London</span>
+        <span>Unofficial schedule</span>
+        <span>4 tracks · 29 talks</span>
+      </div>
+      <h1 class="title">Day three<br><em>at a glance</em></h1>
+      <p class="tagline">Every talk across every track, so you can plan your walkabout between the Great Hall, Small Hall and the two session rooms downstairs.</p>
+    </div>
+    <div class="date-stamp">
+      <div class="day">17</div>
+      <div class="month">April &middot; 2026</div>
+    </div>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-item t1-c"><span class="swatch"></span>Great Hall · Ground</div>
+  <div class="legend-item t2-c"><span class="swatch"></span>Small Hall · L1</div>
+  <div class="legend-item t3-c"><span class="swatch"></span>Session Room 1 · L‑1</div>
+  <div class="legend-item t4-c"><span class="swatch"></span>Session Room 2 · L‑1</div>
+</div>
+
+<main>
+  <div class="grid-wrap">
+    <table class="schedule" id="grid">
+      <thead>
+        <tr>
+          <th class="time-col">Time</th>
+          <th class="t1-h"><span class="track-name">Great Hall</span><span class="track-sub">Ground Floor · T1</span></th>
+          <th class="t2-h"><span class="track-name">Small Hall</span><span class="track-sub">Level 1 · T2</span></th>
+          <th class="t3-h"><span class="track-name">Session Room 1</span><span class="track-sub">Level −1 · T3</span></th>
+          <th class="t4-h"><span class="track-name">Session Room 2</span><span class="track-sub">Level −1 · T4</span></th>
+        </tr>
+      </thead>
+      <tbody id="grid-body"></tbody>
+    </table>
+  </div>
+</main>
+
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="close-btn" id="close-btn" aria-label="Close">✕</button>
+      <div class="modal-track" id="modal-track"></div>
+      <h2 id="modal-title"></h2>
+      <div class="tags" id="modal-tags"></div>
+    </div>
+    <div class="modal-body">
+      <p class="desc" id="modal-desc"></p>
+      <div class="speakers-section">
+        <h3>Speakers</h3>
+        <div id="modal-speakers"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Unofficial companion · Data from london.cityjsconf.org/schedule</div>
+  <div>Built for <a href="https://london.cityjsconf.org/schedule" target="_blank" rel="noopener">CityJS London 2026</a></div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════
+   SCHEDULE DATA
+   Rows are in chronological order. Each row lists
+   one talk per track column — null = no talk there.
+   "shared" entries span all four tracks.
+   ═══════════════════════════════════════════════ */
+
+const TRACKS = ['t1', 't2', 't3', 't4'];
+const TRACK_LABELS = {
+  t1: { name: 'Great Hall', sub: 'Ground Floor', color: 'var(--t1)' },
+  t2: { name: 'Small Hall', sub: 'Level 1', color: 'var(--t2)' },
+  t3: { name: 'Session Room 1', sub: 'Level −1', color: 'var(--t3)' },
+  t4: { name: 'Session Room 2', sub: 'Level −1', color: 'var(--t4)' }
+};
+
+const rows = [
+  { time: '08:30', shared: { label: 'Registration & breakfast', span: 4 } },
+
+  { time: '09:15', t1: { title: 'Start of Track 1', isIntro: true,
+      speakers: [{ name: 'Sara Vieira', company: 'Senior Frontend Developer',
+        bio: 'Sara is a developer at Remote. Author of The Opinionated Guide to React. GraphQL and Open Source enthusiast. Conference Speaker and Airport expert. She\'s also a fan of horror movies, has talents such as banging sticks into a drum kit and saying the wrong thing at the wrong time.',
+        twitter: 'Nikkitaftw', bluesky: 'nikkitaftw.wtf', linkedin: 'saravieira1' }] } },
+
+  { time: '09:30', t1: { title: 'The New UX',
+      tags: ['Contejas', 'AI-Driven UX', 'Voice/Multimodal Interfaces'],
+      description: 'UX is changing with AI, where we go from clicking on boxes that are questionably accessible to just speaking things into existence. This talk will showcase how the role of JavaScript developers is changing in the AI age with practical steps and live demos.',
+      speakers: [{ name: 'Tejas Kumar', company: 'Director, Developer Relations @ IBM',
+        bio: 'Tejas has been writing code since he was 8 years old. Today, Tejas loves code, loves people, and loves traveling around the world talking to people about code.',
+        twitter: 'tejaskumar_', bluesky: 'tej.as', linkedin: 'tejasq' }] } },
+
+  { time: '09:55', t2: { title: 'Start of Track 2', isIntro: true,
+      speakers: [{ name: 'Tony Edwards', company: 'Sapphire Holidays',
+        bio: 'Tony Edwards is a software engineer with a love for all things web and a lecturer in Computer Science for Games at Plymouth University. Alongside constant code tinkering, he\'s a full-time cat carer, a part-time rapper, and an occasional morris dancer.',
+        twitter: 'tonyedwardspz' }] } },
+
+  { time: '10:00',
+    t1: { title: 'From Vibe Coding to Vibe Engineering',
+      tags: ['AI-Assisted Development', 'VibeCoding', 'Future of Frontend'],
+      description: 'Web development has always moved in cycles of hype, from frameworks to tooling. With the rise of large language models, we\'re entering a new era of "vibe coding," where developers shape software through collaboration with AI rather than syntax. This talk explores what that means for the future of coding, especially in frontend development, and how it echoes the past while redefining what comes next.',
+      speakers: [{ name: 'Kitze', company: 'Sizzy',
+        bio: 'Kitze loves to rant about webdev. He is the founder of Sizzy — the browser for developers. He created React Academy to teach web development. He\'s the creator of Zero To Shipped — the interactive video course for mastering Fullstack Development.',
+        twitter: 'thekitze', bluesky: 'thekitze.bsky.social' }] },
+    t2: { title: 'Beyond the Framework',
+      tags: ['Web Architecture', 'Frontend Tooling', 'Sustainable Software'],
+      description: 'Frontend tooling moves at breakneck speed, but the foundations of great web applications remain surprisingly constant. In this talk, Daniel explores how to architect projects that will thrive across technology shifts — from framework migrations to evolving hosting landscapes. Drawing from his work leading the Nuxt core team and collaborating with global developer communities, Daniel shares patterns, pitfalls, and practical strategies for building software that stays resilient, adaptable, and joyful to work on.',
+      speakers: [{ name: 'Daniel Roe', company: 'Framework Lead @ Nuxt',
+        bio: 'Daniel leads the Nuxt core team — previously CTO of a SaaS startup and founder of a creative agency focusing on clarity of vision and message. His open-source work has a focus in the Vue.js and Nuxt ecosystems. He\'s based in Scotland where he lives with his family and cat.',
+        twitter: 'danielcroe' }] } },
+
+  { time: '10:25',
+    t1: { title: 'The New Node.js: Built-in Batteries and the Road Ahead',
+      tags: ['NodeJS', 'BackendDev', 'OpenSource'],
+      description: 'Not long ago, starting a Node.js project meant installing lots of packages just to handle environment variables, run tests, or use TypeScript. Now, those days are behind us, and 2026 is the time to make the switch. This session covers built-in TypeScript support, testing with node:test and node:assert, built-in .env configuration, native fetch powered by Undici, watch mode, node:sqlite, and the stable Permission System.',
+      speakers: [{ name: 'Matteo Collina', company: 'Platformatic Co-Founder & CTO · Node.js TSC member',
+        bio: 'Matteo is the co-founder and CTO of Platformatic. He is a prolific open source author and contributor and a member of the Node.js Technical Steering Committee.',
+        twitter: 'matteocollina', bluesky: 'matteocollina.com', linkedin: 'matteocollina' }] },
+    t2: { title: 'React Beyond Components: The Rise of Generative UI',
+      tags: ['React', 'GenerativeUI', 'LLMs'],
+      description: 'The component model made popular by React was the key to its success. By giving developers precise control over how interfaces are created, composed, and reused, React enabled an entire generation of high-quality user interfaces. Today, we\'re at a similar inflection point — UI components are being rendered and orchestrated by LLMs themselves. This creates a great opportunity to rethink UI with React.',
+      speakers: [{ name: 'Ruben Casas', company: 'Staff Engineer @ Postman',
+        bio: 'Ruben Casas is a Staff Vibe Engineer at Postman. Always exploring what\'s next: currently playing with generative UI, AI agents, and server-side rendering.',
+        twitter: 'infoxicador', linkedin: 'ruben-casas-17100383' }] } },
+
+  { time: '10:55', shared: { label: 'Break · Great Hall & Small Hall', span: 2, cols: ['t1','t2'] } },
+
+  { time: '11:20',
+    t1: { title: 'Implementing Server Driven UI',
+      description: 'What if your frontend didn\'t need a deploy every time the product team wanted to rearrange a screen? Server-Driven UI lets the server send a declarative schema that the client renders at runtime — no redeploy needed. We\'ll cover schema design, mapping responses to a component registry, handling actions declaratively, and the real tradeoffs around type safety and DX.',
+      speakers: [{ name: 'Dan Neciu', company: 'Staff Engineer',
+        bio: 'Neciu Dan is the technical co-founder and tech lead of CareerOS, where he spearheads the development, maintenance, and scaling of the main application. Bringing over 12 years of engineering expertise to the table.' }] },
+    t2: { title: 'Achieving 93% Faster Next.js in Kubernetes with Watt',
+      description: 'Here\'s something most Node.js developers don\'t realize: PM2\'s cluster module silently imposes a ~30% performance tax through hidden IPC coordination overhead. With Watt, we eliminated this overhead using SO_REUSEPORT, achieving 93% faster median latency by letting the Linux kernel handle load distribution directly — no master processes, no IPC, zero coordination cost.',
+      speakers: [{ name: 'Paolo Insogna', company: 'Platformatic',
+        bio: 'Node.js TSC Member, Principal Engineer at Platformatic, Polyglot Developer. RPG and LARP addicted and an old-school gamer.',
+        twitter: 'p_insogna', linkedin: 'pinsogna' }] },
+    t3: { title: 'Start of Track 3', isIntro: true,
+      speakers: [{ name: 'Mihchael Hoffman', company: 'Senior Developer',
+        bio: 'Coder by trade, community organiser by passion. Builds developer-focused events that bring together engineers, founders, and creators. Focused on practical knowledge, real conversations, and lasting connections.',
+        linkedin: 'mzhoffman' }] },
+    t4: { title: 'Start of Track 4', isIntro: true,
+      speakers: [{ name: 'Praveen Kumar Purushothaman', company: 'Community Organiser' }] } },
+
+  { time: '11:25',
+    t3: { title: 'From Isolation to Acceleration: Building the fastest payment platform on an iFrame',
+      tags: ['Web Performance', 'Architecture', 'Vue.js'],
+      description: 'What started as a secure, isolated iFrame to ensure user confidence soon turned into a performance hurdle. This talk dives into how the team evolved their payment platform architecture to reclaim speed without sacrificing the trust and isolation that iFrame embedding provides.',
+      speakers: [{ name: 'Eduardo Aparicio Cardenes' }] },
+    t4: { title: 'Securing AI-Generated Code with Semgrep',
+      speakers: [{ name: 'Paul Ibeauchi' }] } },
+
+  { time: '11:45',
+    t1: { title: 'Pear — P2Pify all the apps',
+      tags: ['p2p', 'peer-to-peer', 'p2p-ota'],
+      description: 'Use a module & a CLI to enable peer-to-peer deployments for any JS native application — such as an Electron or React Native app. Peer-to-peer over-the-air updates, production release flows with multisig for stakeholder sign-off, battle-tested in production with millions of new users per month. Open Source and free to use. No cloud, no fees, no outages.',
+      speakers: [{ name: 'David Mark Clements', company: 'Tether',
+        bio: 'Writing JavaScript since \'96, into Node.js from 0.8 (2012). Author, OSS Creator, Teacher, Consultant, Speaker helping to shape the ecosystem. Node Cookbook original and OpenJS Node.js Certifications lead.',
+        twitter: 'davidmarkclem' }] },
+    t2: { title: 'A personal AI agent, off cloud, for $100',
+      tags: ['AI', 'PrivacyTech', 'WebGPU'],
+      description: 'Most of the talk around AI is about revolution — this is about taking an LLM off the big tech platform for simple daily improvements. I built a fully private digital butler that actually is personal. It exists on my computer, stores only what I tell it to, shares no data with the world, and helps me stay organised with useful, focused interactions. I\'ll show you how I made it, so you can build your own too.',
+      speakers: [{ name: 'Alvin Bryan', company: 'Developer Advocate at Yoto',
+        bio: 'Alvin is a developer advocate at Yoto working in IoT audio. Before that he did developer relations for ARM and Particle. Previously, he was a lead engineer for Dow Jones at the Wall Street Journal.',
+        twitter: 'hola_alvin' }] } },
+
+  { time: '12:05',
+    t1: { title: 'Segmentation fault! Low-level debugging for JS developers',
+      description: 'JavaScript developers may not often face segmentation faults, but low-level debugging skills can be invaluable for diagnosing crashes and other issues in server-side JavaScript applications. This talk provides an overview of how native debuggers and tracing tools can help investigate issues that would otherwise be out of reach for JS developers.',
+      speakers: [{ name: 'Anna Henningsen', company: 'Staff Engineer @ MongoDB',
+        bio: 'Once one of the most active Node.js core contributors, Anna is still driven by a passion for JavaScript and its community. These days, she works on Developer Tools and Client Libraries at MongoDB.',
+        twitter: 'addaleax', bluesky: 'addaleax.net', linkedin: 'annahenningsen' }] },
+    t2: { title: "OTel You It's Not Just for Backend!",
+      tags: ['Frontend Observability', 'OpenTelemetry', 'Web Performance Monitoring'],
+      description: 'Observability is the ability to measure the current state of a system. SREs are familiar with OpenTelemetry signals and how they can be used to diagnose issues. Yet in the frontend world, we\'re behind the curve. Join me as I dive into the current state of OpenTelemetry for Web — logging, metrics and tracing using OTel web, specifically the Client Instrumentation libraries.',
+      speakers: [{ name: 'Carly Richmond', company: 'Senior Developer Advocate at Elastic',
+        bio: 'Carly is Developer Advocate Lead at Elastic, based in London, UK. Before joining Elastic in 2022, she spent over 9 years in investment banking.',
+        twitter: 'CarlyLRichmond', bluesky: 'carlyrichmond.bsky.social', linkedin: 'carly-richmond' }] },
+    t3: { title: 'WebAssembly + JavaScript: Partners, Not Competitors',
+      speakers: [{ name: 'Aprajita Verma' }] },
+    t4: { title: 'Embeddable Agentic SaaS with A2UI and Microfrontends',
+      speakers: [
+        { name: 'Benjamin Bartosch' },
+        { name: 'Alexander Günsche' }
+      ] } },
+
+  { time: '12:25',
+    t1: { title: 'The Other Local-First',
+      description: 'The field of software engineering has changed dramatically in the last six months, whether you consented to it or not. But the new way of working has dangers that we\'re not taking seriously. In this talk, we\'ll explore how we can reframe our collective relationship with AI using the ideals of local-first development.',
+      speakers: [{ name: 'Rich Harris', company: 'Vercel',
+        bio: 'Open source troublemaker at Vercel. Creator of Rollup and Svelte.',
+        twitter: 'Rich_Harris' }] },
+    t2: { title: 'Replacing form libraries with native web APIs',
+      tags: ['Native Web APIs', 'HTML Forms', 'Web Performance'],
+      description: 'In 2026, shipping a heavy library like Formik or React Hook Form is often an unnecessary performance tax. This "delete code" session showcases how to use the Constraint Validation API, the Popover API, and native HTML Form Validation to build complex, accessible, and high-performance forms with zero external dependencies.',
+      speakers: [{ name: 'Trust Jamin Okpukoro', company: 'Uploadcare, Developer Advocate',
+        bio: 'Trust Jamin Okpukoro is a developer advocate and senior technical writer with a strong background in software engineering.',
+        twitter: 'codejagaban', linkedin: 'codejagaban' }] } },
+
+  { time: '12:45',
+    t1: { title: 'Video Optimization for the Web: The Missing Piece in Lighthouse',
+      tags: ['videooptimisation', 'webperformance', 'imagekit'],
+      description: 'Video is everywhere on the web — from hero banners to product videos to full-blown streaming. However, while Lighthouse reports issues related to images, scripts, and more, it doesn\'t really address video performance. In this talk, we\'ll explore quick wins: optimising video size and format, optimizing streaming for every device and network, and different video loading strategies to improve performance.',
+      speakers: [{ name: 'Harshit Budhraja', company: 'ImageKit',
+        bio: 'Harshit is a product and engineering leader at ImageKit. He has been working with web, mobile, and media technologies for over 8 years.',
+        twitter: 'harshitbudhraja', linkedin: 'harshitbudhraja' }] },
+    t2: { title: 'Look ma, no hands! Multimodal AI-Agents in the browser',
+      tags: ['Multimodal AI', 'Browser-Based AI', 'Privacy-Preserving Technology'],
+      description: 'In this talk, we\'ll explore how to build multimodal AI agents that understand voice, interpret images, hold short-term memory, and respond intelligently — all running entirely in the browser. No server, no cloud APIs, and no installation. Using modern tools like WebGPU and WebAssembly, we\'ll see how far the open web has come in enabling real-time, privacy-preserving AI experiences.',
+      speakers: [{ name: 'Nico Martin', company: 'Machine Learning Engineer @ Hugging Face',
+        bio: 'Machine Learning Engineer at Hugging Face, focused on running AI models in the browser using WebGPU and WebAssembly.',
+        twitter: 'nic_o_martin', bluesky: 'nico.dev', linkedin: 'nicodotdev' }] } },
+
+  { time: '13:00', shared: { label: 'Lunch · Session Rooms 1 & 2', span: 2, cols: ['t3','t4'] } },
+  { time: '13:05', shared: { label: 'Lunch · Great Hall & Small Hall', span: 2, cols: ['t1','t2'] } },
+
+  { time: '14:00',
+    t1: { title: 'Code Golf — Getting A Hole-in-One-(Liner)',
+      tags: ['JavaScript Internals', 'Code Golfing', 'Language Quirks'],
+      description: 'We spend so long adopting well-worn patterns, and following accepted best practice, that we can forget about the fun that used to come from exploring the dark corners of our language. This talk covers some fundamentals of JavaScript and how they can be (ab)used to write shorter and more compact code.',
+      speakers: [{ name: 'Steven Goodwin', company: 'Unemployable computer geek',
+        bio: 'Steven Goodwin (London, England) has been involved in computing, science, and technology from an early age, building his first synthesizer while still in his teens. As a systems architect he designed and built global systems for Unilever, Playfish, and Third Space Learning.',
+        twitter: 'marquisdegeek' }] },
+    t2: { title: 'How to choose the right AI model for your project',
+      tags: ['AI', 'GenerativeAI', 'MachineLearning'],
+      description: 'This presentation will detail a methodology to help you select the right Generative AI (GenAI) model by defining project needs and constraints first, assessing the available data, and finally, selecting the appropriate model type and processing location.',
+      speakers: [{ name: 'Ali Spivak', company: 'Google',
+        bio: 'Ali Spivak is a lead on the Chrome Developer Relations team at Google, where she manages a global team covering Web & Chrome AI, Chrome Extensions, Chrome Developer Tools, and Chrome on Android.',
+        twitter: 'alispivak', bluesky: 'alispivak.bsky.social', linkedin: 'alispivak' }] },
+    t3: { title: 'Pigeon-Driven Development',
+      speakers: [{ name: 'Scott Spence' }] },
+    t4: { title: 'From Executor to Orchestrator: Building in the Age of AI Agents',
+      speakers: [{ name: 'Nkechi Anyanwu' }] } },
+
+  { time: '14:20',
+    t1: { title: 'Women in Tech — The Panel',
+      tags: ['WomenInTech'],
+      description: 'Join us for an inspiring Women in Tech Panel spotlighting trailblazing leaders who are shaping the future of innovation. From engineering and product to entrepreneurship and AI, our speakers will share candid stories about their career journeys, lessons learned, and the challenges they\'ve overcome in the tech industry.',
+      speakers: [
+        { name: 'Denise Lashlley', company: 'VIOOH' },
+        { name: 'Robin Ginn', company: 'Executive Director @ OpenJS Foundation' },
+        { name: 'Jess Madhavan', company: 'Imperatrix Intelligence' },
+        { name: 'Viktorija Buklajeva', company: 'Software Engineer at Zoopla' },
+        { name: 'Lena Lekkou', company: 'SAE Athens' },
+        { name: 'Julia Biro', company: 'Developer Experience' }
+      ] } },
+
+  { time: '14:25',
+    t2: { title: 'Building Resilient UIs with React',
+      description: 'Modern React applications are no longer just UI layers. They sit at the boundary of a distributed system, coordinating APIs, third-party services, feature flags, client-side caches, async rendering, and user-critical flows that can fail in several ways. This talk looks at resilience from the frontend outward — using real production lessons from Smallpdf, including a 35-day region-specific payment failure that went undetected while most metrics looked healthy.',
+      speakers: [{ name: 'Faris Aziz', company: 'Staff Software Engineer @ Smallpdf',
+        bio: 'Faris is an experienced engineer, international conference speaker, and workshop instructor with a focus on React and frontend performance.',
+        twitter: 'farisaziz12' }] } },
+
+  { time: '14:45',
+    t3: { title: 'Effortlessly defend your dev machine from North Koreans on NPM',
+      speakers: [{ name: 'Zbyszek Tenerowicz' }] } },
+
+  { time: '14:50',
+    t2: { title: "A Decade and Counting: React's Rhapsody of Life",
+      description: 'React has been shaping how we build user interfaces for over a decade. But its journey hasn\'t exactly been smooth. From early skepticism around JSX and "mixing HTML with JavaScript" to debates about hooks, concurrency, and RSC, React has sparked more controversy — and innovation — than almost any library in the web ecosystem. We\'ll revisit the past that led to React\'s creation, explore the many "trouble in paradise" moments, and look at what\'s coming next.',
+      speakers: [{ name: 'Matheus Albuquerque', company: 'Medallia',
+        bio: 'Matheus is a Staff Front-End Engineer at Medallia, building their surveys platform.',
+        twitter: 'ythecombinator' }] } },
+
+  { time: '14:55',
+    t1: { title: 'Federation of Specialists: From Module Federation to AI Orchestration',
+      tags: ['AI agents', 'composable AI architecture', 'production AI systems'],
+      description: 'The industry has already learned how to break frontend monoliths apart without breaking the product experience. A similar shift is now happening in AI. This talk traces the move from federated UI and composable runtime systems to a federation of AI specialists — and shows why production AI works better when agents have clear roles, controlled tools, workflow hooks, shared collaboration context, and policy boundaries.',
+      speakers: [{ name: 'Nestor Lopez', company: 'Zephyr Cloud',
+        bio: 'Néstor is a Spanish platform engineer at Zephyr Cloud focused on Module Federation, microfrontends, edge-native deployments, and distributed systems.',
+        twitter: 'nstlopez', bluesky: 'nst.blue', linkedin: 'nstlopez' }] } },
+
+  { time: '15:10',
+    t1: { title: 'Ripple: the Good Parts of React, Svelte, and Solid',
+      tags: ['webdev', 'reactalternatives', 'frameworks'],
+      description: 'Throughout history, empires rise and fall. Throughout web development, frameworks rise and fall. In 2026, we are firmly in "late stage React". What if I told you there was a TypeScript-first UI framework created by a member of both the React and Svelte core teams focused on fine-grained reactivity and rendering speed that will look instantly familiar to you? I\'d like to introduce you to Ripple.',
+      speakers: [{ name: 'Erik Rasmussen', company: 'Fuse Energy',
+        bio: 'American expat living in Spain, author of Redux Form, Final Form, and currently building the best CRM in the energy sector.',
+        twitter: 'erikras', bluesky: 'erikras.com', linkedin: 'erikjrasmussen' }] } },
+
+  { time: '15:20',
+    t2: { title: 'Improve your e-commerce with Agents and Model Context Protocol',
+      tags: ['AI in E-commerce', 'AI Agents & MCP', 'Conversion Optimization'],
+      description: 'This talk will take you through how AI can improve your e-commerce website to increase conversion and customer joy. The talk will cover Agents and how MCP helps build reusable agents.',
+      speakers: [{ name: 'Chris Noring', company: 'Microsoft',
+        bio: 'Chris is a Senior Engineer at Microsoft, with 20 years in the IT industry, focused on AI and JavaScript. He also lectures at University of Oxford on AI and Agents.',
+        twitter: 'chris_noring' }] },
+    t3: { title: 'Off-the-main-thread: Building fast, smooth and future-proof web apps',
+      speakers: [{ name: 'Ananya Kittane Yogananda' }] },
+    t4: { title: 'Six-Month Refactor in Six Days: Using AI to Update Deprecated JS Libraries',
+      speakers: [{ name: 'Mo Khazali' }] } },
+
+  { time: '15:30',
+    t1: { title: 'The Dark Side of Micro-Frontends',
+      tags: ['MicroFrontends', 'FrontendArchitecture', 'WebDev'],
+      description: 'Micro-Frontends are the distributed architecture for user interfaces that are solving not only technical but also organizational challenges. In this session, you will learn the most common anti-patterns I\'ve seen in the past 10 years of implementing and consulting worldwide companies in their journey into the micro-frontends architecture.',
+      speakers: [{ name: 'Luca Mezzalira', company: 'Software Architect @ AWS',
+        bio: 'Luca Mezzalira has been associated with the industry since 2004 and has lent his expertise predominantly in the solution architecture field. Author of "Building Micro-Frontends" (O\'Reilly).',
+        twitter: 'lucamezzalira', linkedin: 'lucamezzalira' }] } },
+
+  { time: '15:45',
+    t2: { title: 'JSBT: A Binary Serialization Format for Real JavaScript Object Graphs',
+      tags: ['JavaScript', 'Performance', 'DataSerialization'],
+      description: 'Most serialization formats used in JavaScript were never designed for JavaScript. JSON can\'t handle circular references or shared objects; Protobuf and Avro require schemas; MessagePack and CBOR still see data as a tree. I\'ll introduce JSBT — a binary format designed specifically for JavaScript object graphs. It supports circular references, Maps, Sets, BigInts, TypedArrays, class instances and achieves huge size reductions (10,000 objects → 62 KB).',
+      speakers: [{ name: 'Alexander Cheprasov', company: 'Senior Software Engineer, Valstro (UK) Ltd',
+        bio: 'Alexander is a Senior Software Engineer at Valstro with a passion for performance-critical JavaScript.' }] } },
+
+  { time: '15:50', shared: { label: 'Break · Great Hall, Session Rooms 1 & 2', span: 3, cols: ['t1','t3','t4'] } },
+
+  { time: '16:00',
+    t1: { title: 'The Future of the AI Bubble (Panel)',
+      tags: ['AI Age', 'Panel', 'Future of Development'],
+      description: 'In this panel we\'ll discuss the current state of generative AI, how systems built on top of it work, and what happens if the exceptionally resource-intensive infrastructure underneath it fails. We\'ll cover the possible ramifications for our industry, the ethical dilemmas and project out into the future around this controversial and category-defining emerging programming technique.',
+      speakers: [
+        { name: 'David Whitney', company: 'Director of Architecture at NewDay',
+          bio: 'David is the Director of Architecture for NewDay, and the founder of Electric Head Software. Focusing on iterative software delivery, developer mentoring and cultural change. Microsoft MVP, OpenUK Honours list for open-source advocacy, and twice bestselling author of children\'s books about programming.',
+          twitter: 'david_whitney', linkedin: 'davidwhitney' },
+        { name: 'David Benson', company: 'Development Consultant',
+          bio: 'David has a long background in Software Engineering and has been involved in Software Delivery since 2003.' }
+      ] } },
+
+  { time: '16:10',
+    t2: { title: 'JS at the speed of Rust: Oxc',
+      tags: ['JavaScript', 'TypeScript', 'Rust'],
+      description: 'If you write JS or TS, it probably feels like every tool you use daily is being rewritten in Rust. This has advantages, but also potential downsides. The evolution of JS from the dark days before async/await was fuelled by tooling written in JS. If our tools migrate to a language we don\'t know, will we lose the ability to control or customize them? In this talk, I\'ll explain how Oxc is aiming to "square the circle" — providing rich customisation via plugins written in JS, but maintaining the exceptional performance of Rust.',
+      speakers: [{ name: 'Jim Dummett', company: 'Void(0)',
+        bio: 'Jim (overlookmotel) is an unashamed compiler nerd and performance nut. Member of core team of Oxc, the Rust-based JavaScript toolchain.',
+        twitter: 'overlook_motel', bluesky: 'overlookmotel.bsky.social' }] } },
+
+  { time: '16:45',
+    t1: { title: 'JavaScript: The Best Part',
+      tags: ['javascript', 'bestpart'],
+      description: "JavaScript's best part is higher-order functions. You will discover why this is the best way to program.",
+      speakers: [{ name: 'Douglas Crockford', company: 'JSON Creator',
+        bio: 'Douglas Crockford is the author of How JavaScript Works. He has been called a JavaScript Guru, but he is more of a Mahatma. He is the inventor of JSON and author of JavaScript: The Good Parts.',
+        bluesky: 'did:plc:45gs3u53n6my3eyjdhmuogbk', linkedin: 'douglas-crockford-724600109' }] } }
+];
+
+/* ═══════════════════════════════════════════════
+   RENDER GRID
+   ═══════════════════════════════════════════════ */
+const body = document.getElementById('grid-body');
+const talkStore = []; // keep refs for modal lookup
+
+rows.forEach((row) => {
+  const tr = document.createElement('tr');
+
+  const timeTd = document.createElement('td');
+  timeTd.className = 'time-cell';
+  timeTd.textContent = row.time;
+  tr.appendChild(timeTd);
+
+  if (row.shared) {
+    // shared rows: a single spanning cell, plus empty cells for tracks it doesn't cover
+    if (row.shared.span === 4) {
+      const td = document.createElement('td');
+      td.colSpan = 4;
+      td.className = 'shared';
+      td.textContent = row.shared.label;
+      tr.appendChild(td);
+    } else {
+      const coveredCols = new Set(row.shared.cols || []);
+      const sortedTracks = TRACKS.filter(t => coveredCols.has(t));
+      // find contiguous runs of shared tracks so colspan works neatly
+      // simpler: render each track column, merging contiguous shared ones
+      let i = 0;
+      while (i < TRACKS.length) {
+        const t = TRACKS[i];
+        if (coveredCols.has(t)) {
+          // count run
+          let run = 1;
+          while (i + run < TRACKS.length && coveredCols.has(TRACKS[i + run])) run++;
+          const td = document.createElement('td');
+          td.colSpan = run;
+          td.className = 'shared';
+          td.textContent = row.shared.label;
+          tr.appendChild(td);
+          i += run;
+        } else {
+          const td = document.createElement('td');
+          td.className = 'slot empty';
+          tr.appendChild(td);
+          i += 1;
+        }
+      }
+    }
+  } else {
+    TRACKS.forEach((track) => {
+      const td = document.createElement('td');
+      td.className = `slot ${track}`;
+      const talk = row[track];
+      if (talk) {
+        const btn = document.createElement('button');
+        btn.className = 'talk';
+        btn.type = 'button';
+
+        const title = document.createElement('div');
+        title.className = 'talk-title';
+        title.textContent = talk.title;
+        btn.appendChild(title);
+
+        if (talk.speakers && talk.speakers.length) {
+          const sp = document.createElement('div');
+          sp.className = 'talk-speaker';
+          const names = talk.speakers.map(s => s.name);
+          sp.textContent = names.length > 2
+            ? `${names[0]} + ${names.length - 1} others`
+            : names.join(' & ');
+          btn.appendChild(sp);
+        }
+
+        if (talk.isIntro) {
+          const meta = document.createElement('div');
+          meta.className = 'talk-meta';
+          meta.textContent = 'Track opening';
+          btn.appendChild(meta);
+        }
+
+        const idx = talkStore.length;
+        talkStore.push({ talk, track, time: row.time });
+        btn.dataset.idx = idx;
+        btn.addEventListener('click', () => openModal(idx));
+
+        td.appendChild(btn);
+      } else {
+        td.classList.add('empty');
+      }
+      tr.appendChild(td);
+    });
+  }
+
+  body.appendChild(tr);
+});
+
+/* ═══════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════ */
+const modal = document.getElementById('modal');
+const modalTrack = document.getElementById('modal-track');
+const modalTitle = document.getElementById('modal-title');
+const modalTags = document.getElementById('modal-tags');
+const modalDesc = document.getElementById('modal-desc');
+const modalSpeakers = document.getElementById('modal-speakers');
+const closeBtn = document.getElementById('close-btn');
+
+function openModal(idx) {
+  const { talk, track, time } = talkStore[idx];
+  const label = TRACK_LABELS[track];
+
+  modalTrack.innerHTML = `
+    <span class="dot" style="background:${label.color}"></span>
+    <span>${time}</span>
+    <span>·</span>
+    <span>${label.name}, ${label.sub}</span>
+  `;
+  modalTitle.textContent = talk.title;
+
+  modalTags.innerHTML = '';
+  if (talk.tags && talk.tags.length) {
+    talk.tags.forEach(tag => {
+      const t = document.createElement('span');
+      t.className = 'tag';
+      t.textContent = tag;
+      modalTags.appendChild(t);
+    });
+  }
+
+  modalDesc.textContent = talk.description || (talk.isIntro ? 'Opening remarks for the track.' : 'Details to follow.');
+
+  modalSpeakers.innerHTML = '';
+  (talk.speakers || []).forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'speaker';
+    const socials = [];
+    if (s.twitter)  socials.push(`<a href="https://x.com/${s.twitter}" target="_blank" rel="noopener">𝕏 @${s.twitter}</a>`);
+    if (s.bluesky)  socials.push(`<a href="https://bsky.app/profile/${s.bluesky}" target="_blank" rel="noopener">🦋 ${s.bluesky}</a>`);
+    if (s.linkedin) socials.push(`<a href="https://linkedin.com/in/${s.linkedin}" target="_blank" rel="noopener">in/ ${s.linkedin}</a>`);
+
+    div.innerHTML = `
+      <div class="speaker-name">${s.name}</div>
+      ${s.company ? `<div class="speaker-company">${s.company}</div>` : ''}
+      ${s.bio ? `<div class="speaker-bio">${s.bio}</div>` : ''}
+      ${socials.length ? `<div class="socials">${socials.join('')}</div>` : ''}
+    `;
+    modalSpeakers.appendChild(div);
+  });
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+closeBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+});
+</script>
+
+</body>
+</html>
